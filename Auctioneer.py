@@ -8,25 +8,38 @@ from tkinter import *
 # from tkinter import scrolledtext
 
 
-def clicked1(windows_obj):
+def clicked(windows_obj, search_term):
     windows_obj.activate_new_world_window()
     pyautogui.write('/rec ', interval=0.05)
-    pyautogui.write("ffffffffffffffffffff")
+    pyautogui.write(search_term)
+
+
 
 
 def main():
     """
     Main function for the program
     """
-    print("main function Initiated")# Initiate windows class
+    print("main function Initiated")
+
+    tp_item = [1, 2]
+    tp_item[0] = ["Oil", "Dark gold"]
+    tp_item[1] = ["Iron Ore", "Lowest level ore"]
+
+    # Initiate windows class
     windows_obj = Windows()
 
     window = Tk()
     window.title("New World Messages App")
     window.geometry('580x500')
 
-    btn1 = Button(window, text="Paste", command=lambda: clicked1(windows_obj))
+    print(tp_item[1][0])
+
+    btn1 = Button(window, text="Oil", command=lambda: clicked(windows_obj, "Oil"))
     btn1.grid(column=0, row=0)
+
+    btn2 = Button(window, text="Iron Ore", command=lambda: clicked(windows_obj, "Iron Ore"))
+    btn2.grid(column=0, row=1)
 
     window.mainloop()
 
