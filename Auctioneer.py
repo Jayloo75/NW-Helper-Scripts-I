@@ -3,10 +3,15 @@ import pydirectinput
 import time
 import random
 import keyboard
-import sys
 from classes.windows_class import Windows
-# from classes.gather import Gather
-from classes.gather import Gather
+from tkinter import *
+# from tkinter import scrolledtext
+
+
+def clicked1(windows_obj):
+    windows_obj.activate_new_world_window()
+    pyautogui.write('/rec ', interval=0.05)
+    pyautogui.write("ffffffffffffffffffff")
 
 
 def main():
@@ -15,6 +20,15 @@ def main():
     """
     print("main function Initiated")# Initiate windows class
     windows_obj = Windows()
+
+    window = Tk()
+    window.title("New World Messages App")
+    window.geometry('580x500')
+
+    btn1 = Button(window, text="Paste", command=lambda: clicked1(windows_obj))
+    btn1.grid(column=0, row=0)
+
+    window.mainloop()
 
     newWorldWindow = windows_obj.newWorldWindow
     RegionX = round(newWorldWindow.left + 627)
