@@ -5,8 +5,9 @@ import random
 import keyboard
 import sys
 from classes.windows_class import Windows
+# from classes.gather import Gather
 from classes.gather import Gather
-from classes.gather import Gather
+
 
 def main():
     """
