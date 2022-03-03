@@ -6,14 +6,18 @@ import keyboard
 from classes.windows_class import Windows
 from tkinter import *
 # from tkinter import scrolledtext
+from functools import partial
+
+tp_items = [[1, "Oil", "Dark gold"], [2, "IronOre", "Lowest level ore"], [2, "Greenwood", "Easy Wood"]]
 
 
-def clicked(windows_obj, search_term):
+def clicked(windows_obj, search_term_id):
     windows_obj.activate_new_world_window()
     pyautogui.write('/rec ', interval=0.05)
-    pyautogui.write(search_term)
-
-
+    print("debug---", search_term_id)
+    print("debug---", tp_items[search_term_id])
+    # pyautogui.write("testing 1=", tp_items[search_term_id])
+    pyautogui.write("testing 1=" + str(tp_items[search_term_id][1]))
 
 
 def main():
@@ -22,24 +26,32 @@ def main():
     """
     print("main function Initiated")
 
-    tp_item = [1, 2]
-    tp_item[0] = ["Oil", "Dark gold"]
-    tp_item[1] = ["Iron Ore", "Lowest level ore"]
 
     # Initiate windows class
     windows_obj = Windows()
 
     window = Tk()
     window.title("New World Messages App")
-    window.geometry('580x500')
+    window.geometry('250x500')
 
-    print(tp_item[1][0])
+    row_counter = 0
+    for item in tp_items:
+        print(item)
+        the_text = item[1], "#", row_counter
+        # btn = tk.Button(my_w, text=language, command=lambda lan=language:show_lan(lan))
+        # Button(window, text=the_text, command=lambda: clicked(windows_obj, row_counter)).grid(column=0, row=row_counter)
+        # Button(window, text=the_text, command=partial(clicked, windows_obj, row_counter)).grid(column=0, row=row_counter)
+        Button(window, text=the_text, command=lambda win=windows_obj, rc=row_counter: clicked(win, rc)).grid(column=0, row=row_counter)
 
-    btn1 = Button(window, text="Oil", command=lambda: clicked(windows_obj, "Oil"))
-    btn1.grid(column=0, row=0)
+        # tk.Button(self.board, command=lambda i=i, j=j: self.on_click(i, j))
 
-    btn2 = Button(window, text="Iron Ore", command=lambda: clicked(windows_obj, "Iron Ore"))
-    btn2.grid(column=0, row=1)
+        row_counter = row_counter + 1
+
+    # btn1 = Button(window, text="Oil", command=lambda: clicked(windows_obj, "Oil"))
+    # btn1.grid(column=0, row=0)
+    #
+    # btn2 = Button(window, text="Iron Ore", command=lambda: clicked(windows_obj, "Iron Ore"))
+    # btn2.grid(column=0, row=1)
 
     window.mainloop()
 
