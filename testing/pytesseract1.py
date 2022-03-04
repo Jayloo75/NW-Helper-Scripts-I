@@ -1,8 +1,9 @@
 import cv2
+import numpy as np
+from PIL import ImageGrab
 import pytesseract as tess
 from pytesseract import Output
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-from PIL import Image
 
 
 def ocr_core(img):
@@ -24,36 +25,41 @@ def thresholding(image):
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
 
-# img = cv2.imread('imgs/text-test.png')
-# img = cv2.imread('imgs/e0.png')
-# img = cv2.imread('imgs/e-young-tree.png')
-# img = cv2.imread('imgs/coords.png')
 
-img = cv2.imread('imgs/pytesseract-test.png')
-
-# img = get_grayscale(img)
-# img = thresholding(img)
-# img = remove_noise(img)
-
-
-d = tess.image_to_data(img, output_type=Output.DICT)
-n_boxes = len(d['level'])
-for i in range(n_boxes):
-    print(d['text'][i])
-    (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
-    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-print(d)
-# print(d["text"])
+# img = ImageGrab.grab(bbox=(1300, 525, 1416, 562))  # x1,y1,x2,y2
+# img = ImageGrab.grab(bbox=(1300, 1141, 1416, 1178))  # x1,y1,x2,y2
+img = ImageGrab.grab(bbox=(1829, 1141, 1891, 1178))  # x1,y1,x2,y2
+img_np = np.array(img)
+# print(img_np)
+img_frame = get_grayscale(img_np)
+img_frame = thresholding(img_frame)
+coords_string = ocr_core(img_frame)
+newstr = coords_string.strip()
+print(newstr)
 
 
+
+
+
+
+
+# d = tess.image_to_data(img, output_type=Output.DICT)
+# n_boxes = len(d['level'])
+# for i in range(n_boxes):
+#     print(d['text'][i])
+#     (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
+#     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+#
+# print("Asdf")
+# # print(d["text"])
+#
+#
 # text_ocr = ocr_core(img)
-# print(text_ocr[2])
-# print(text_ocr[3])
+# print(text_ocr)
 
-while True:
-    cv2.imshow("frame", img)
-    if cv2.waitKey(1) & 0Xff == ord('q'):
-        break
-
-cv2.destroyAllWindows()
+# while True:
+#     cv2.imshow("frame", img)
+#     if cv2.waitKey(1) & 0Xff == ord('q'):
+#         break
+#
+# cv2.destroyAllWindows()
