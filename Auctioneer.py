@@ -18,7 +18,7 @@ tp_items = [
     [12, "Gold Ore", "Description", "gold-ore.png", "gold ore"],
     [12, "Silver Ore", "Description", "silver-ore.png", "silver ore"],
     [12, "Platinum Ore", "Description", "platinum-ore.png", "platinum ore"],
-    [6, "Iron Ingot", "Description", "iron-ore.png", "iron ing"],
+    [6, "Iron Ingot", "Description", "iron-ingot.png", "iron ing"],
     [8, "Steel Ingot", "Description", "steel-ingot.png", "steel ingo"],
     [5, "Starmetal Ingot", "Description", "starmetal-ingot.png", "starmetal in"],
     [4, "Orichalcum Ingot", "Description", "orichalcum-ingot.png", "orichalcum ing"],
@@ -43,12 +43,30 @@ def search_items(windows_obj, search_term_id):
     print("debug---", tp_items[search_term_id][1])
 
     newWorldWindow = windows_obj.newWorldWindow
+
     RegionX = round(newWorldWindow.left + 627)
     RegionY = round(newWorldWindow.top + 296)
     RegionWidth = round(RegionX + 49)
     RegionHeight = round(RegionY + 51)
     windows_obj.region_auctioneer_refresh = (RegionX, RegionY, RegionWidth, RegionHeight)
     print("windows_obj.region_auctioneer_refresh", windows_obj.region_auctioneer_refresh)
+
+
+
+
+
+
+    RegionX = round(newWorldWindow.left + 86)
+    RegionY = round(newWorldWindow.top + 284)
+    RegionWidth = round(230)
+    RegionHeight = round(57)
+    region_auctioneer_search_items_box = (RegionX, RegionY, RegionWidth, RegionHeight)
+    print("region_auctioneer_search_items_box", region_auctioneer_search_items_box)
+
+
+
+
+
 
 
     # Searchable region for search dropdown
@@ -78,7 +96,25 @@ def search_items(windows_obj, search_term_id):
         # Initial default state - reset any variables here
         if bot_stage == 0:
             print(bot_stage, " -------------- Starting -----------------")
-            bot_stage = 100
+            bot_stage = 50
+
+        # make sure that the box is available to write in
+        elif bot_stage == 50:
+            print(bot_stage, " Start looking for SEARCH ITEMS box")
+            print(bot_stage, "region_auctioneer_search_items_box", region_auctioneer_search_items_box)
+            search_image_name = "imgs/auctioneer-search-items-box.png"
+            search_items_box = pyautogui.locateOnScreen(search_image_name, grayscale=True, confidence=.75,
+                                        region=region_auctioneer_search_items_box)
+
+            if search_items_box is not None:
+                # print(search_dropdown_coords)
+                # print(bot_stage, " search_items_box", search_items_box)
+                bot_stage = 100
+            else:
+                time.sleep(random.randint(250, 780) / 1000)  # shorty distance
+
+
+
 
         # Click into the search box at a random location
         elif bot_stage == 100:
@@ -98,7 +134,7 @@ def search_items(windows_obj, search_term_id):
         # type "oil"
         elif bot_stage == 102:
             print(bot_stage, " Type ", tp_items[search_term_id][1])
-            pyautogui.write(tp_items[search_term_id][4], interval=0.15)
+            pyautogui.write(tp_items[search_term_id][4], interval=0.09)
             bot_stage = 103
 
         # Locate "oil in drop down and click it
@@ -114,7 +150,7 @@ def search_items(windows_obj, search_term_id):
 
             # click the search result
         elif bot_stage == 104:
-            time.sleep(random.randint(450, 880) / 1000)  # shorty distance
+            # time.sleep(random.randint(450, 880) / 1000)  # shorty distance
             search_dropdown_coords_clickable_x = search_dropdown_coords[0] + random.randint(0, search_dropdown_coords[2])
             search_dropdown_coords_clickable_y = search_dropdown_coords[1] + random.randint(0, search_dropdown_coords[3])
 
