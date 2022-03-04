@@ -8,20 +8,25 @@ from tkinter import *
 # from tkinter import scrolledtext
 from functools import partial
 
-tp_items = [[1, "Oil", "Dark gold", "oil.png", "oil"],
-            [2, "Orichalcum Ore", "Premium Ore", "orichalcum-ore.png", "orichalcum o"],
-            [3, "Starmetal Ore", "Lowest level ore", "starmetal-ore.png", "starmetal o"],
-            [4, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [5, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [6, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [7, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [8, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [9, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [10, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [11, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [12, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [13, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
-            [14, "Green Wood", "Easy Wood", "green-wood.png", "green w"]]
+tp_items = [
+    [1, "Oil", "Dark gold", "oil.png", "oil"],
+    [14, "Green Wood", "Easy Wood", "green-wood.png", "green w"],
+    [13, "Charcoal", "Description", "charcoal.png", "charc"],
+    [7, "Iron Ore", "Description", "iron-ore.png", "iron o"],
+    [3, "Starmetal Ore", "Description", "starmetal-ore.png", "starmetal o"],
+    [2, "Orichalcum Ore", "Premium Ore", "orichalcum-ore.png", "orichalcum o"],
+    [12, "Gold Ore", "Description", "gold-ore.png", "gold ore"],
+    [12, "Silver Ore", "Description", "silver-ore.png", "silver ore"],
+    [12, "Platinum Ore", "Description", "platinum-ore.png", "platinum ore"],
+    [6, "Iron Ingot", "Description", "iron-ore.png", "iron ing"],
+    [8, "Steel Ingot", "Description", "steel-ingot.png", "steel ingo"],
+    [5, "Starmetal Ingot", "Description", "starmetal-ingot.png", "starmetal in"],
+    [4, "Orichalcum Ingot", "Description", "orichalcum-ingot.png", "orichalcum ing"],
+    [10, "Silver Ingot", "Description", "silver-ingot.png", "silver ingo"],
+    [9,  "Gold Ingot", "Description", "gold-ingot.png", "gold ing"],
+    [11, "Platinum Ingot", "Description", "platinum-ingot.png", "platinum Ing"],
+    [12, "Sample", "Description", "sample.png", "sample"]
+    ]
 
 
 def clicked(windows_obj, search_term_id):
