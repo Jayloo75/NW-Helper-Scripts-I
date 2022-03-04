@@ -8,9 +8,20 @@ from tkinter import *
 # from tkinter import scrolledtext
 from functools import partial
 
-tp_items = [[1, "Oil", "Dark gold", "auctioneer-search-dropdown-oil.png"],
-            [2, "Iron Ore", "Lowest level ore", "auctioneer-search-dropdown-oil.png"],
-            [3, "Green Wood", "Easy Wood", "auctioneer-search-dropdown-oil.png"]]
+tp_items = [[1, "Oil", "Dark gold", "oil.png", "oil"],
+            [2, "Orichalcum Ore", "Premium Ore", "orichalcum-ore.png", "orichalcum o"],
+            [3, "Starmetal Ore", "Lowest level ore", "starmetal-ore.png", "starmetal o"],
+            [4, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [5, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [6, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [7, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [8, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [9, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [10, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [11, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [12, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [13, "Iron Ore", "Lowest level ore", "iron-ore.png", "iron o"],
+            [14, "Green Wood", "Easy Wood", "green-wood.png", "green w"]]
 
 
 def clicked(windows_obj, search_term_id):
@@ -46,127 +57,115 @@ def search_items(windows_obj, search_term_id):
     cycler = True
     bot_stage = 0
 
-    while 1:
-        while cycler:
+    # while 1:
+    while cycler:
 
-            auctioneer_refresh_clickable_x = newWorldWindow.left + 635 + random.randint(0, 32)
-            auctioneer_refresh_clickable_y = newWorldWindow.top + 310 + random.randint(0, 26)
+        auctioneer_refresh_clickable_x = newWorldWindow.left + 635 + random.randint(0, 32)
+        auctioneer_refresh_clickable_y = newWorldWindow.top + 310 + random.randint(0, 26)
 
-            # auctioneer_search_clickable_x = newWorldWindow.left + 150 + random.randint(0, 300)
-            # auctioneer_search_clickable_y = newWorldWindow.top + 321 + random.randint(0, 18)
+        # auctioneer_search_clickable_x = newWorldWindow.left + 150 + random.randint(0, 300)
+        # auctioneer_search_clickable_y = newWorldWindow.top + 321 + random.randint(0, 18)
 
-            auctioneer_search_clickable_x = newWorldWindow.left + 100 + random.randint(0, 489)
-            auctioneer_search_clickable_y = newWorldWindow.top + 296 + random.randint(0, 41)
-
-
-            # Initial default state - reset any variables here
-            if bot_stage == 0:
-                print(bot_stage, " -------------- Starting -----------------")
-                bot_stage = 100
-
-            # Click into the search box at a random location
-            elif bot_stage == 100:
-                print(bot_stage, " Click the search box")
-                pydirectinput.click(auctioneer_search_clickable_x, auctioneer_search_clickable_y)
-                time.sleep(random.randint(150, 340) / 1000)  # shorty distance
-                pydirectinput.click(auctioneer_search_clickable_x, auctioneer_search_clickable_y)
-                bot_stage = 101
-
-            #pause for a quick second
-            elif bot_stage == 101:
-                print(bot_stage, " A quick random wait timer")
-                time.sleep(random.randint(450, 800) / 1000)  # shorty distance
-                # cycler = False
-                bot_stage = 102
-
-            # type "oil"
-            elif bot_stage == 102:
-                print(bot_stage, " Type ", tp_items[search_term_id][1])
-
-                pyautogui.write(tp_items[search_term_id][1], interval=0.05)
-
-                # pyautogui.press('o')
-                # time.sleep(random.randint(110, 345) / 1000)  # shorty distance
-                # pyautogui.press('i')
-                # time.sleep(random.randint(110, 387) / 1000)  # shorty distance
-                # pyautogui.press('l')
-                # time.sleep(random.randint(201, 576) / 1000)  # shorty distance
-                bot_stage = 103
-
-            # Locate "oil in drop down and click it
-            elif bot_stage == 103:
-                search_image_name = "imgs/search/" + tp_items[search_term_id][3]
-                search_dropdown_coords = pyautogui.locateOnScreen(search_image_name, grayscale=True, confidence=.75,
-                                            region=region_auctioneer_search_dropdown)
-                if search_dropdown_coords is not None:
-                    # print(search_dropdown_coords)
-                    print(bot_stage, " search_dropdown_coords", search_dropdown_coords)
-                    time.sleep(random.randint(250, 780) / 1000)  # shorty distance
-                    bot_stage = 104
-
-                # click the search result
-            elif bot_stage == 104:
-                print(bot_stage, "Click eeeet!")
-                print(search_dropdown_coords[0])
-                print(search_dropdown_coords[1])
-                print(search_dropdown_coords[2])
-                print(search_dropdown_coords[3])
-
-                search_dropdown_coords_clickable_x = newWorldWindow.left + 116 + random.randint(0, search_dropdown_coords[2])
-                search_dropdown_coords_clickable_y = newWorldWindow.top + 695 + random.randint(0, search_dropdown_coords[3])
-
-                print(bot_stage, " Debug", search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
-                pydirectinput.click(search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
-
-                print(bot_stage, " Debug", search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
-                #print(bot_stage, " Debug", search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
-
-                bot_stage = 105
-
-            elif bot_stage == 105:
-                bot_stage = 106
-
-                #
-            elif bot_stage == 106:
+        auctioneer_search_clickable_x = newWorldWindow.left + 100 + random.randint(0, 489)
+        auctioneer_search_clickable_y = newWorldWindow.top + 296 + random.randint(0, 41)
 
 
-                print(bot_stage, " Dead end!`")
-                bot_stage = 69
+        # Initial default state - reset any variables here
+        if bot_stage == 0:
+            print(bot_stage, " -------------- Starting -----------------")
+            bot_stage = 100
+
+        # Click into the search box at a random location
+        elif bot_stage == 100:
+            print(bot_stage, " Click the search box")
+            pydirectinput.click(auctioneer_search_clickable_x, auctioneer_search_clickable_y)
+            time.sleep(random.randint(150, 340) / 1000)  # shorty distance
+            pydirectinput.click(auctioneer_search_clickable_x, auctioneer_search_clickable_y)
+            bot_stage = 101
+
+        #pause for a quick second
+        elif bot_stage == 101:
+            print(bot_stage, " A quick random wait timer")
+            time.sleep(random.randint(450, 800) / 1000)  # shorty distance
+            # cycler = False
+            bot_stage = 102
+
+        # type "oil"
+        elif bot_stage == 102:
+            print(bot_stage, " Type ", tp_items[search_term_id][1])
+            pyautogui.write(tp_items[search_term_id][4], interval=0.15)
+            bot_stage = 103
+
+        # Locate "oil in drop down and click it
+        elif bot_stage == 103:
+            search_image_name = "imgs/search/" + tp_items[search_term_id][3]
+            search_dropdown_coords = pyautogui.locateOnScreen(search_image_name, grayscale=True, confidence=.75,
+                                        region=region_auctioneer_search_dropdown)
+            if search_dropdown_coords is not None:
+                # print(search_dropdown_coords)
+                print(bot_stage, " search_dropdown_coords", search_dropdown_coords)
+                time.sleep(random.randint(250, 780) / 1000)  # shorty distance
+                bot_stage = 104
+
+            # click the search result
+        elif bot_stage == 104:
+            time.sleep(random.randint(450, 880) / 1000)  # shorty distance
+            search_dropdown_coords_clickable_x = search_dropdown_coords[0] + random.randint(0, search_dropdown_coords[2])
+            search_dropdown_coords_clickable_y = search_dropdown_coords[1] + random.randint(0, search_dropdown_coords[3])
+
+            print(bot_stage, " Debug", search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
+            pydirectinput.click(search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
+
+            print(bot_stage, " Debug", search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
+            #print(bot_stage, " Debug", search_dropdown_coords_clickable_x, search_dropdown_coords_clickable_y)
+
+            bot_stage = 105
+
+        elif bot_stage == 105:
+            bot_stage = 106
+
+            #
+        elif bot_stage == 106:
+
+
+            print(bot_stage, " Dead end!`")
+            cycler = False
+            # bot_stage = 69
 
 
 
-            # Find the Interactable "E"
-            elif bot_stage == 1:
-                # Find that image on screen, in that region, with a confidence of 65%
-                #if pyautogui.locateOnScreen("imgs/e0.png", grayscale=True, confidence=.65, region=region) is not None:
-                if pyautogui.locateOnScreen("imgs/auctioneer-refresh.png", grayscale=True, confidence=.85, region=windows_obj.region_auctioneer_refresh) is not None:
-                    print("1 - I found an interactable Object")
-                    start_time = time.time()
-                    bot_stage = 2
+        # Find the Interactable "E"
+        elif bot_stage == 1:
+            # Find that image on screen, in that region, with a confidence of 65%
+            #if pyautogui.locateOnScreen("imgs/e0.png", grayscale=True, confidence=.65, region=region) is not None:
+            if pyautogui.locateOnScreen("imgs/auctioneer-refresh.png", grayscale=True, confidence=.85, region=windows_obj.region_auctioneer_refresh) is not None:
+                print("1 - I found an interactable Object")
+                start_time = time.time()
+                bot_stage = 2
 
-            # let's check some shit
-            elif bot_stage == 2:
-                print("2 - Lets click it")
-                # let's wait a few then click on the refresh button
-                pydirectinput.click(auctioneer_refresh_clickable_x, auctioneer_refresh_clickable_y)
+        # let's check some shit
+        elif bot_stage == 2:
+            print("2 - Lets click it")
+            # let's wait a few then click on the refresh button
+            pydirectinput.click(auctioneer_refresh_clickable_x, auctioneer_refresh_clickable_y)
 
-                random_casting_delay = random.randint(9150, 25350) / 1000  # shorty distance
-                time.sleep(random_casting_delay)
+            random_casting_delay = random.randint(9150, 25350) / 1000  # shorty distance
+            time.sleep(random_casting_delay)
 
-                bot_stage = 0
+            bot_stage = 0
 
 
 
 
 
 
-            if keyboard.is_pressed('f1'):
-                print("\nyou pressed F1, so pausing...")
-                cycler = False
-                time.sleep(1)
         if keyboard.is_pressed('f1'):
-            print("\nyou pressed F1, so resuming...")
-            cycler = True
+            print("\nyou pressed F1, so pausing...")
+            cycler = False
+            time.sleep(1)
+        # if keyboard.is_pressed('f1'):
+        #     print("\nyou pressed F1, so resuming...")
+        #     cycler = True
 
 def main():
     """
