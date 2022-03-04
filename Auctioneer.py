@@ -3,10 +3,15 @@ import pydirectinput
 import time
 import random
 import keyboard
+import numpy as np
+from PIL import ImageGrab
 from classes.windows_class import Windows
 from tkinter import *
-# from tkinter import scrolledtext
-from functools import partial
+import cv2
+import pytesseract as tess
+from pytesseract import Output
+tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 
 tp_items = [
     [1, "Oil", "Dark gold", "oil.png", "oil"],
@@ -27,6 +32,24 @@ tp_items = [
     [11, "Platinum Ingot", "Description", "platinum-ingot.png", "platinum Ing"],
     [12, "Sample", "Description", "sample.png", "sample"]
     ]
+
+def ocr_core(img):
+    # tess.image_to_string(question_img, config="-c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyz -psm 6")
+    # text = tess.image_to_string(img, config='-c tessedit_char_whitelist=0123456789.[]    ')
+    text = tess.image_to_string(img)
+    return text
+
+
+def get_grayscale(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+
+def remove_noise(image):
+    return cv2.medianBlur(image, 10)
+
+
+def thresholding(image):
+    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
 
 def clicked(windows_obj, search_term_id):
@@ -163,6 +186,22 @@ def search_items(windows_obj, search_term_id):
             bot_stage = 105
 
         elif bot_stage == 105:
+            # now read some shit
+            print(bot_stage, " Let's read some numbers ")
+            img = ImageGrab.grab(bbox=(1829, 1141, 1891, 1178))  # x1,y1,x2,y2
+            print("-----------------------------------------")
+            print(img)
+            print("-----------------------------------------")
+            img_np = np.array(img)
+            print(img_np)
+            img_frame = get_grayscale(img_np)
+            img_frame = thresholding(img_frame)
+            coords_string = ocr_core(img_frame)
+            newstr = coords_string.strip()
+            print(coords_string)
+            print(newstr)
+
+            print(bot_stage, " done: Next! ")
             bot_stage = 106
 
             #
