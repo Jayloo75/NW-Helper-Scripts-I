@@ -1,5 +1,6 @@
 import cv2
 import pytesseract as tess
+from pytesseract import Output
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 from PIL import Image
 
@@ -28,13 +29,27 @@ def thresholding(image):
 # img = cv2.imread('imgs/e-young-tree.png')
 # img = cv2.imread('imgs/coords.png')
 
-img = cv2.imread('testing/imgs/pytesseract-test.png')
+img = cv2.imread('imgs/pytesseract-test.png')
 
-img = get_grayscale(img)
-img = thresholding(img)
+# img = get_grayscale(img)
+# img = thresholding(img)
 # img = remove_noise(img)
 
-print(ocr_core(img))
+
+d = tess.image_to_data(img, output_type=Output.DICT)
+n_boxes = len(d['level'])
+for i in range(n_boxes):
+    print(d['text'][i])
+    (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
+    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+print(d)
+# print(d["text"])
+
+
+# text_ocr = ocr_core(img)
+# print(text_ocr[2])
+# print(text_ocr[3])
 
 while True:
     cv2.imshow("frame", img)
