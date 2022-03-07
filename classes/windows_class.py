@@ -92,8 +92,8 @@ class Windows:
     def region_weapon_1(self):
         # Windows.region_gather
         # newWorldWindow = Windows.newWorldWindow
-        region_x = round(self.left + self.width - 1874)
-        region_y = round(self.top + self.height - 1017)
+        region_x = round(self.left + self.width - 58)
+        region_y = round(self.top + self.height - 223)
 
         region_width = round(50)
         region_height = round(50)

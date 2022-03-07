@@ -47,48 +47,48 @@ def main():
 
             # let's gather some shit
             elif bot_stage == 3:
-                print("3 - Pressing 'E'")
+                print("3 - Pressing 'E' to start gathering")
                 pyautogui.press('e')
                 Gather.incrementGatherCounter(gather_obj)
                 #Gather.gatherCounter = Gather.gatherCounter + 1
                 #isGatheringNode = 1
 
-                time.sleep(random.randint(250, 569) / 1000)
-                print(windows_obj.region_tool)
+                time.sleep(random.randint(250, 500) / 1000)
+                # print(windows_obj.region_weapon_1)
+                # print("3 - Goto line 4")
                 bot_stage = 4
 
-            # Loof for weapon pixel to know that you are done gathering
+            # Look for weapon pixel to know that you are done gathering
             elif bot_stage == 4:
-                # print(windows_obj.region_tool)
-                if pyautogui.locateOnScreen("imgs/weapon-1.png", grayscale=True, confidence=.75,
+                # print("4 - Looking for weapon 1 icon")
+                if pyautogui.locateOnScreen("imgs/weapon-1.png", grayscale=True, confidence=.85,
                                             region=windows_obj.region_weapon_1) is not None:
                     gathering_message = "Chopping with a wood axe"
-                    print("4 - Gathering Message - ", gathering_message)
                     bot_stage = 5
 
             # Are we actually gathering some shit and if yes, what
             elif bot_stage == 5:
-                if pyautogui.locateOnScreen("imgs/gather-lumbering-1.png", grayscale=True, confidence=.75,
-                                            region=windows_obj.region_tool) is not None:
-                    gathering_message = "Chopping with a wood axe"
-                    print("4 - Gathering Message - ", gathering_message)
-                    bot_stage = 6
-                elif pyautogui.locateOnScreen("imgs/gather-mining-1.png", grayscale=True, confidence=.75,
-                                              region=windows_obj.region_tool) is not None:
-                    gathering_message = "Mining with an pick axe"
-                    print("4 - Gathering Message - ", gathering_message)
-                    bot_stage = 6
-                elif pyautogui.locateOnScreen("imgs/gather-harvesting-1.png", grayscale=True, confidence=.75,
-                                              region=windows_obj.region_tool) is not None:
-                    gathering_message = "Harvesting with a sickle"
-                    print("4 - Gathering Message - ", gathering_message)
-                    bot_stage = 6
-                else:
-                    # Didn't actually start gathering anything so start over
-                    print("4 - Gathering Message - Dosen't look like I am gathering anything so goto 0")
-                    random_casting_delay = random.randint(150, 350) / 1000  # shorty distance
-                    time.sleep(random_casting_delay)
-                    bot_stage = 8
+                # if pyautogui.locateOnScreen("imgs/gather-lumbering-1.png", grayscale=True, confidence=.85,
+                #                             region=windows_obj.region_tool) is not None:
+                #     gathering_message = "Chopping with a wood axe"
+                #     print("4 - Gathering Message - ", gathering_message)
+                #     bot_stage = 6
+                # elif pyautogui.locateOnScreen("imgs/gather-mining-1.png", grayscale=True, confidence=.85,
+                #                               region=windows_obj.region_tool) is not None:
+                #     gathering_message = "Mining with an pick axe"
+                #     print("4 - Gathering Message - ", gathering_message)
+                #     bot_stage = 6
+                # elif pyautogui.locateOnScreen("imgs/gather-harvesting-1.png", grayscale=True, confidence=.85,
+                #                               region=windows_obj.region_tool) is not None:
+                #     gathering_message = "Harvesting with a sickle"
+                #     print("4 - Gathering Message - ", gathering_message)
+                #     bot_stage = 6
+                # else:
+                #     # Didn't actually start gathering anything so start over
+                #     print("4 - Gathering Message - Dosen't look like I am gathering anything so goto 0")
+                #     random_casting_delay = random.randint(10, 20) / 1000  # shorty distance
+                #     time.sleep(random_casting_delay)
+                bot_stage = 8
 
             # are we done gathering
             elif bot_stage == 6:
@@ -105,7 +105,9 @@ def main():
 
             # Run to next spot
             elif bot_stage == 8:
-                print("8 - Gathering Completed")
+                print("8 - Gathering Completed - No RUN")
+
+                #     time.sleep(random_casting_delay)
                 key = '='
                 #print("pressing =")
                 time.sleep(0.3)
