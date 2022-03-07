@@ -52,11 +52,19 @@ def main():
                 Gather.incrementGatherCounter(gather_obj)
                 #Gather.gatherCounter = Gather.gatherCounter + 1
                 #isGatheringNode = 1
+
+                time.sleep(random.randint(250, 569) / 1000)
+                print(windows_obj.region_tool)
                 bot_stage = 4
 
-            # just a placeholder
+            # Loof for weapon pixel to know that you are done gathering
             elif bot_stage == 4:
-                bot_stage = 5
+                # print(windows_obj.region_tool)
+                if pyautogui.locateOnScreen("imgs/weapon-1.png", grayscale=True, confidence=.75,
+                                            region=windows_obj.region_weapon_1) is not None:
+                    gathering_message = "Chopping with a wood axe"
+                    print("4 - Gathering Message - ", gathering_message)
+                    bot_stage = 5
 
             # Are we actually gathering some shit and if yes, what
             elif bot_stage == 5:
