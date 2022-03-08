@@ -37,6 +37,9 @@ tp_items = [
 def ocr_core(img):
     # tess.image_to_string(question_img, config="-c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyz -psm 6")
     # text = tess.image_to_string(img, config='-c tessedit_char_whitelist=0123456789.[]    ')
+    # text = tess.image_to_string(img, config='--psm 7')
+    custom_config = '-l eng --oem 3 --psm 6 '
+    # data = pytesseract.image_to_string(thresh, config=custom_config)
     text = tess.image_to_string(img, config='--psm 7')
     return text
 
@@ -46,11 +49,11 @@ def get_grayscale(image):
 
 
 def remove_noise(image):
-    return cv2.medianBlur(image, 10)
+    return cv2.medianBlur(image, 3)
 
 
 def thresholding(image):
-    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    return cv2.threshold(image, 200, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
 
 def clicked(windows_obj, search_term_id):
@@ -62,25 +65,48 @@ def clicked(windows_obj, search_term_id):
     pyautogui.write("testing 1=" + str(tp_items[search_term_id][1]))
 
 
-def get_price_and_qty_ocr(windows_obj):
+def get_price_and_qty(windows_obj):
     win = windows_obj.newWorldWindow
+    vert_spacing = 77
+    for row in range(0, 9):
+        price_x1 = round(win.left + 969)
+        price_x2 = round(price_x1 + 113)
 
-    x1 = round(win.left + 969)
-    y1 = round(win.top + 433)
-    x2 = round(x1 + 113)
-    y2 = round(y1 + 31)
-    bbox_price_and_qty_ocr = (x1, y1, x2, y2)
-    print("bbox_price_and_qty_ocr", bbox_price_and_qty_ocr)
+        qty_x1 = round(win.left + 969 + 540)
+        qty_x2 = round(qty_x1 + 64)
 
-    img = ImageGrab.grab(bbox=bbox_price_and_qty_ocr)  # x1,y1,x2,y2
-    img.save('testing/imgs/ocr_test_image.png')
-    img_np = np.array(img)
-    img_frame = get_grayscale(img_np)
-    img_frame = thresholding(img_frame)
-    coords_string = ocr_core(img_frame)
-    newstr = coords_string.strip()
-    # print(coords_string)
-    print(newstr)
+        # y1 = round(win.top + 433 + row * vert_spacing)
+        # y2 = round(y1 + 31 + row * vert_spacing)
+        y1 = round(win.top + 433 + row * vert_spacing)
+        y2 = round(y1 + 31)
+
+        # Get price for this row
+        filename = "price_" + str(row) + ".png"
+        price = get_ocr_result(windows_obj, price_x1, y1, price_x2, y2, filename)
+
+        # Get qTY for this row
+        filename = "qty" + str(row) + ".png"
+        qty = get_ocr_result(windows_obj, qty_x1, y1, qty_x2, y2, filename)
+
+        print(row, "--", price, ", ", qty)
+
+def get_ocr_result(windows_obj, x1, y1, x2, y2, filename):
+        bbox_price_and_qty_ocr = (x1, y1, x2, y2)
+        # print("bbox_price_and_qty_ocr", bbox_price_and_qty_ocr)
+
+        img = ImageGrab.grab(bbox=bbox_price_and_qty_ocr)  # x1,y1,x2,y2
+        full_filename = "testing/imgs/ocr_test_image" + filename
+        # print(full_filename)
+        img.save(full_filename)
+        img_np = np.array(img)
+        img_frame = get_grayscale(img_np)
+        img_frame = thresholding(img_frame)
+        cv2.imwrite(full_filename, img_frame);
+
+        coords_string = ocr_core(img_frame)
+        newstr = coords_string.strip()
+        # print(coords_string)
+        return(newstr)
 
 
 def search_items(windows_obj, search_term_id):
@@ -179,7 +205,7 @@ def search_items(windows_obj, search_term_id):
             if search_dropdown_coords is not None:
                 # print(search_dropdown_coords)
                 print(bot_stage, " search_dropdown_coords", search_dropdown_coords)
-                time.sleep(random.randint(250, 780) / 1000)  # shorty distance
+                # time.sleep(random.randint(250, 780) / 1000)  # shorty distance
                 bot_stage = 104
 
             # click the search result
@@ -200,7 +226,7 @@ def search_items(windows_obj, search_term_id):
             # now read some shit
             print(bot_stage, " Let's read some numbers ")
             time.sleep(random.randint(750, 1280) / 1000)  # shorty distance
-            get_price_and_qty_ocr(windows_obj)
+            get_price_and_qty(windows_obj)
 
             print(bot_stage, " done: Next! ")
             bot_stage = 106
@@ -265,7 +291,7 @@ def main():
 
     row_counter = 0
     for item in tp_items:
-        print(item)
+        # print(item)
         the_text = item[1], "#", row_counter
         # btn = tk.Button(my_w, text=language, command=lambda lan=language:show_lan(lan))
         # Button(window, text=the_text, command=lambda: clicked(windows_obj, row_counter)).grid(column=0, row=row_counter)
