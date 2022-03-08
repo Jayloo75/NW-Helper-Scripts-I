@@ -9,6 +9,7 @@ from classes.windows_class import Windows
 from tkinter import *
 import cv2
 import pytesseract as tess
+import win32gui
 from pytesseract import Output
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -36,7 +37,7 @@ tp_items = [
 def ocr_core(img):
     # tess.image_to_string(question_img, config="-c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyz -psm 6")
     # text = tess.image_to_string(img, config='-c tessedit_char_whitelist=0123456789.[]    ')
-    text = tess.image_to_string(img)
+    text = tess.image_to_string(img, config='--psm 7')
     return text
 
 
@@ -61,6 +62,27 @@ def clicked(windows_obj, search_term_id):
     pyautogui.write("testing 1=" + str(tp_items[search_term_id][1]))
 
 
+def get_price_and_qty_ocr(windows_obj):
+    win = windows_obj.newWorldWindow
+
+    x1 = round(win.left + 969)
+    y1 = round(win.top + 433)
+    x2 = round(x1 + 113)
+    y2 = round(y1 + 31)
+    bbox_price_and_qty_ocr = (x1, y1, x2, y2)
+    print("bbox_price_and_qty_ocr", bbox_price_and_qty_ocr)
+
+    img = ImageGrab.grab(bbox=bbox_price_and_qty_ocr)  # x1,y1,x2,y2
+    img.save('testing/imgs/ocr_test_image.png')
+    img_np = np.array(img)
+    img_frame = get_grayscale(img_np)
+    img_frame = thresholding(img_frame)
+    coords_string = ocr_core(img_frame)
+    newstr = coords_string.strip()
+    # print(coords_string)
+    print(newstr)
+
+
 def search_items(windows_obj, search_term_id):
     print("debug---", search_term_id)
     print("debug---", tp_items[search_term_id][1])
@@ -74,23 +96,12 @@ def search_items(windows_obj, search_term_id):
     windows_obj.region_auctioneer_refresh = (RegionX, RegionY, RegionWidth, RegionHeight)
     print("windows_obj.region_auctioneer_refresh", windows_obj.region_auctioneer_refresh)
 
-
-
-
-
-
     RegionX = round(newWorldWindow.left + 86)
     RegionY = round(newWorldWindow.top + 284)
     RegionWidth = round(230)
     RegionHeight = round(57)
     region_auctioneer_search_items_box = (RegionX, RegionY, RegionWidth, RegionHeight)
     print("region_auctioneer_search_items_box", region_auctioneer_search_items_box)
-
-
-
-
-
-
 
     # Searchable region for search dropdown
     RegionX = round(newWorldWindow.left + 106)
@@ -188,18 +199,8 @@ def search_items(windows_obj, search_term_id):
         elif bot_stage == 105:
             # now read some shit
             print(bot_stage, " Let's read some numbers ")
-            img = ImageGrab.grab(bbox=(1829, 1141, 1891, 1178))  # x1,y1,x2,y2
-            print("-----------------------------------------")
-            print(img)
-            print("-----------------------------------------")
-            img_np = np.array(img)
-            print(img_np)
-            img_frame = get_grayscale(img_np)
-            img_frame = thresholding(img_frame)
-            coords_string = ocr_core(img_frame)
-            newstr = coords_string.strip()
-            print(coords_string)
-            print(newstr)
+            time.sleep(random.randint(750, 1280) / 1000)  # shorty distance
+            get_price_and_qty_ocr(windows_obj)
 
             print(bot_stage, " done: Next! ")
             bot_stage = 106
@@ -258,7 +259,8 @@ def main():
     windows_obj = Windows()
 
     window = Tk()
-    window.title("New World Messages App")
+    window_title = "Auctioneer"
+    window.title(window_title)
     window.geometry('250x500')
 
     row_counter = 0
@@ -281,6 +283,10 @@ def main():
     # btn2.grid(column=0, row=1)
 
     window.mainloop()
+
+    # time.sleep(random.randint(250, 251) / 1000)  # shorty distance
+    # hwnd = win32gui.FindWindow(None, window_title)
+    # win32gui.MoveWindow(hwnd, 100, 275, 250, 500, True)
 
 
 # Runs the main function

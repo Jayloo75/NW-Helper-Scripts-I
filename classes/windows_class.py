@@ -1,8 +1,7 @@
 import pyautogui
 import pydirectinput
 import time
-import random
-import keyboard
+import win32gui
 import sys
 
 class Windows:
@@ -40,6 +39,9 @@ class Windows:
                 self.width = self.newWorldWindow.width
                 self.top = self.newWorldWindow.top
                 self.height = self.newWorldWindow.height
+
+                hwnd = win32gui.FindWindow(None, "New World")
+                win32gui.MoveWindow(hwnd, 400, 75, self.width, self.height, True)
                 break
         if not self.newWorldWindow:
             sys.exit('New World Window Not Found')
