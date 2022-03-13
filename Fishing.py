@@ -157,6 +157,7 @@ def main():
                 print("Fishing Bot Initiated.  Let's go!")
                 bot_stage = 2
 
+
             # Cast the line
             if bot_stage == 2:
                 if casting_switch == 0:
