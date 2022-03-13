@@ -163,7 +163,7 @@ def main():
                     # print("Casting switch = " + str(casting_switch))
                     ##random_cast_hold_delay = random.randint(2568, 3150) / 1000
                     random_cast_hold_delay = random.randint(1168, 1450) / 1000
-                    random_casting_delay = random.randint(1792, 1979) / 1000  # $Max Distance
+                    # random_casting_delay = random.randint(1792, 1979) / 1000  # $Max Distance
                     random_casting_delay = random.randint(250, 300) / 1000    # shorty distance
                     # Like it says, casting
                     time.sleep(random_cast_hold_delay)
@@ -211,16 +211,22 @@ def main():
 
                 #print ("fishing cycle timer - " + str(time.time()-start_fishing_cycle_timer))
                 if time.time()-start_fishing_cycle_timer > 26:
-                    if pyautogui.locateOnScreen("imgs/fish_caught_level_bubble.png", grayscale=False, confidence=.90, region=fish_caught_level_bubble_region) is not None or time.time()-start_fishing_cycle_timer > 90 or time.time()-step_time > 4:
+
+                    if time.time() - start_fishing_cycle_timer > 180:
+                        print("WARMING #1 - Cycle timer too long " + str(time.time() - start_fishing_cycle_timer) + " this session!")
+                    if time.time() - step_time > 8:
+                        print("WARNING #2 - Step timer too long " + str(time.time() - step_time) + " Start this shit over!")
+                        bot_stage = 69
+
+                    # if pyautogui.locateOnScreen("imgs/fish_caught_level_bubble.png", grayscale=False, confidence=.95,
+                    #                             region=fish_caught_level_bubble_region) is not None or time.time() - start_fishing_cycle_timer > 180 or time.time() - step_time > 8:
+
+                    if pyautogui.locateOnScreen("imgs/fish_caught_level_bubble.png", grayscale=False, confidence=.95, region=fish_caught_level_bubble_region) is not None:
                         print("Fish Caught in " + str(round(time.time()-start_fishing_cycle_timer, 1)) +" seconds!")
                         print("You've caught " + str(gatherCounter) +" this session!")
                         #print("Fish Caught - Nice work!   ----   Let's do it again shall we.")
                         print("=============================================================")
-                        if mouse_click_down == 1:
-                            print("Found that mouse_click_down == 1 so sending mouseuo command.")
-                            pyautogui.mouseUp()
-                            casting_switch = 0
-                        bot_stage = 0
+                        bot_stage = 69
 
                 if reeling_switch == 0:  # Release mouse button and release tension
                     if mouse_click_down == 1:
@@ -247,6 +253,14 @@ def main():
                         print("mouseup1 timer = " + str(round(time.time()-step_time, 1)) +" seconds!")
                         step_time = time.time()
                         reeling_switch = 0
+
+
+            if bot_stage == 69:
+                if mouse_click_down == 1:
+                    print("Found that mouse_click_down == 1 so sending mouseuo command.")
+                    pyautogui.mouseUp()
+                    casting_switch = 0
+                bot_stage = 0
 
             if keyboard.is_pressed('f1'):
                 print("\nyou pressed F1, so pausing...")
