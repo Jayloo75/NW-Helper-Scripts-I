@@ -164,8 +164,8 @@ def main():
                     # print("Casting switch = " + str(casting_switch))
                     ##random_cast_hold_delay = random.randint(2568, 3150) / 1000
                     random_cast_hold_delay = random.randint(1168, 1450) / 1000
-                    # random_casting_delay = random.randint(1792, 1979) / 1000  # $Max Distance
-                    random_casting_delay = random.randint(250, 300) / 1000    # shorty distance
+                    random_casting_delay = random.randint(1792, 1979) / 1000  # $Max Distance
+                    # random_casting_delay = random.randint(250, 300) / 1000    # shorty distance
                     # Like it says, casting
                     time.sleep(random_cast_hold_delay)
                     print("Start Casting - " + str(random_casting_delay) + " seconds")
@@ -211,7 +211,7 @@ def main():
             if bot_stage == 6:
 
                 #print ("fishing cycle timer - " + str(time.time()-start_fishing_cycle_timer))
-                if time.time()-start_fishing_cycle_timer > 26:
+                if time.time()-start_fishing_cycle_timer > 26:  #  Time from initial rast to right meow
 
                     if time.time() - start_fishing_cycle_timer > 180:
                         print("WARMING #1 - Cycle timer too long " + str(time.time() - start_fishing_cycle_timer) + " this session!")
