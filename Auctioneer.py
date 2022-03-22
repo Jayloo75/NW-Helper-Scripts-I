@@ -3,8 +3,10 @@ import pydirectinput
 import time
 import random
 import keyboard
+import easyocr, io
+import floor
 import numpy as np
-from PIL import ImageGrab
+from PIL import ImageGrab, Image
 from classes.windows_class import Windows
 from tkinter import *
 import cv2
@@ -40,7 +42,8 @@ def ocr_core(img):
     # text = tess.image_to_string(img, config='--psm 7')
     custom_config = '-l eng --oem 3 --psm 6 '
     # data = pytesseract.image_to_string(thresh, config=custom_config)
-    text = tess.image_to_string(img, config='--psm 7')
+    # text = tess.image_to_string(img, config='--psm 7')
+    text = tess.image_to_string(img, config='--psm 6 -c tessedit_char_whitelist=0123456789.')
     return text
 
 
@@ -49,11 +52,11 @@ def get_grayscale(image):
 
 
 def remove_noise(image):
-    return cv2.medianBlur(image, 3)
+    return cv2.medianBlur(image, 1)
 
 
 def thresholding(image):
-    return cv2.threshold(image, 200, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    return cv2.threshold(image, 245, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
 
 def clicked(windows_obj, search_term_id):
@@ -88,20 +91,41 @@ def get_price_and_qty(windows_obj):
         filename = "qty" + str(row) + ".png"
         qty = get_ocr_result(windows_obj, qty_x1, y1, qty_x2, y2, filename)
 
-        print(row, "--", price, ", ", qty)
+        print(row, "--", price, "--", qty)
 
 def get_ocr_result(windows_obj, x1, y1, x2, y2, filename):
         bbox_price_and_qty_ocr = (x1, y1, x2, y2)
         # print("bbox_price_and_qty_ocr", bbox_price_and_qty_ocr)
 
         img = ImageGrab.grab(bbox=bbox_price_and_qty_ocr)  # x1,y1,x2,y2
-        full_filename = "testing/imgs/ocr_test_image" + filename
+
+        width, height = img.size
+        # ratio = floor(height / width)
+        # newheight = ratio * 500
+        ratio_multiplier = 3
+        img = img.resize((width*ratio_multiplier, height*ratio_multiplier))
+
+        full_filename1 = "testing/imgs/ocr_test_image1_" + filename
+        full_filename2 = "testing/imgs/ocr_test_image2_" + filename
         # print(full_filename)
-        img.save(full_filename)
+        img.save(full_filename1)
         img_np = np.array(img)
+        img_frame = img_np
+
+        # hsv = cv2.cvtColor(img_np, cv2.COLOR_BGR2HSV)
+        # lower = np.array([333, 70, 65])
+        # upper = np.array([313, 44, 42])
+        # mask = cv2.inRange(hsv, lower, upper)
+
+
         img_frame = get_grayscale(img_np)
         img_frame = thresholding(img_frame)
-        cv2.imwrite(full_filename, img_frame);
+
+        # inverted = np.invert(img_frame)
+        cv2.imwrite(full_filename2, img_frame);
+
+
+
 
         coords_string = ocr_core(img_frame)
         newstr = coords_string.strip()
