@@ -36,6 +36,7 @@ def main():
     cycler = True
     bot_stage = 0
     casting_distance = 'short'    # short, max
+    # casting_distance = 'max'    # short, max
 
 # # Finds all Windows with the title "New World"
 #     newWorldWindows = pyautogui.getWindowsWithTitle("New World")
@@ -164,8 +165,9 @@ def main():
                 if casting_switch == 0:
                     # print("Casting switch = " + str(casting_switch))
                     ##random_cast_hold_delay = random.randint(2568, 3150) / 1000
+                    random_cast_hold_delay = random.randint(1168, 1450) / 1000  # min/short Distance
                     if casting_distance == 'short':
-                        random_cast_hold_delay = random.randint(1168, 1450) / 1000  # min/short Distance
+                        random_casting_delay = random.randint(250, 300) / 1000    # shorty distance
                     elif casting_distance == 'max':
                         random_casting_delay = random.randint(1792, 1979) / 1000  # $Max Distance
                     else:
