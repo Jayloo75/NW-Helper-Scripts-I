@@ -16,6 +16,13 @@ from pytesseract import Output
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
+#mysql juser jayloo75
+# mysql passowrd [h%gh[R[4p9cxwd*
+
+# un = medinxmj_NWHelper
+# db = medinxmj_NW
+# pw = x~v=mLSWg7a5
+
 tp_items = [
     [1, "Oil", "Dark gold", "oil.png", "oil"],
     [14, "Green Wood", "Easy Wood", "green-wood.png", "green w"],
@@ -93,6 +100,42 @@ def get_price_and_qty(windows_obj):
 
         print(row, "--", price, "--", qty)
 
+    # move page down
+
+    # pyautogui.keyDown(key)
+    auctioneer_scrollbar_1_x = round(win.left + 1848)
+    auctioneer_scrollbar_1_y = round(price_x1 + 453)
+    pydirectinput.click(auctioneer_scrollbar_1_x, auctioneer_scrollbar_1_y)
+
+
+def are_you_still_playing(newWorldWindow):
+    RegionX = round(newWorldWindow.left + 1381)
+    RegionY = round(newWorldWindow.top + 75)
+    RegionWidth = round(421)
+    RegionHeight = round(62)
+    region_still_playing = (RegionX, RegionY, RegionWidth, RegionHeight)
+    print("region_still_playing", region_still_playing)
+
+    print("Checking region_still_playing region")
+    # Are you still Playing - how to deal with this - set a trigger then at most convienient time move character
+    if pyautogui.locateOnScreen("imgs/still_playing_TP.png", grayscale=False, confidence=.65,
+                                region=region_still_playing) is not None:
+        print("Yes, I am still playing!")
+        return True
+    else:
+        return False
+
+
+# Function to move character as to get rid of "Are you still playing?" Message
+def move_player_char():
+    move_direction = ["a", "d"]
+    # Move forward then back for a sec
+    key = move_direction[random.randint(0, 1)]
+    pyautogui.keyDown(key)
+    time.sleep(random.randint(70, 170) / 1000)
+    pyautogui.keyUp(key)
+
+
 def get_ocr_result(windows_obj, x1, y1, x2, y2, filename):
         bbox_price_and_qty_ocr = (x1, y1, x2, y2)
         # print("bbox_price_and_qty_ocr", bbox_price_and_qty_ocr)
@@ -133,11 +176,32 @@ def get_ocr_result(windows_obj, x1, y1, x2, y2, filename):
         return(newstr)
 
 
+def open_trading_post():
+    pydirectinput.press('e')
+
+def exit_trading_post():
+    pydirectinput.press('esc')
+
+# delay for pausing code execution in milliseconds
+def delay_random(min_sec=350, max_sec=970):
+    time.sleep(random.randint(min_sec, max_sec) / 1000)
+
+
 def search_items(windows_obj, search_term_id):
+    newWorldWindow = windows_obj.newWorldWindow
+
+    if are_you_still_playing(newWorldWindow) == True:
+        delay_random(170,250)
+        exit_trading_post()
+        delay_random(589,1200)
+        move_player_char()
+        delay_random(589,1200)
+        open_trading_post()
+        delay_random(589,1200)
+
     print("debug---", search_term_id)
     print("debug---", tp_items[search_term_id][1])
 
-    newWorldWindow = windows_obj.newWorldWindow
 
     RegionX = round(newWorldWindow.left + 627)
     RegionY = round(newWorldWindow.top + 296)
