@@ -53,25 +53,37 @@ def get_auctioneer_scroll_mid():
     return [x_rand, y_rand]
 
 
+print("1", pyautogui.position())
 windows_obj = Windows()
+print("2", pyautogui.position())
 # newWorldWindow = windows_obj.newWorldWindow
-print(pyautogui.position())
+time.sleep(2.5)
+print("3", pyautogui.position())
+x, y = pyautogui.position()
 time.sleep(.5)
-# pydirectinput.press('esc')
+print("4", pyautogui.position())
 pydirectinput.click()
 # sys.exit()
 
+print("5", pyautogui.position())
 # auctioneer_scroll_mid = get_auctioneer_scroll_mid()
 # print(auctioneer_scroll_mid)
 time.sleep(1.5)
+print("Move thur")
 # pydirectinput.move(828, None)
 # pyMove(100, 5, 2, 0.1)
-pydirectinput.move(220, None)
+# pydirectinput.move(220, None)
 # drag(x1, y1, x2, y2, duration, rate):
 
-# drag(959, 621, 1052, 621, 5, 0.01)
+print("6", pyautogui.position())
+pydirectinput.move(100, None)
+# drag(x, y, 1400, 694, 2, 0.01)
+# drag(1168, 657, 1400, 694, 2, 0.01)
 time.sleep(.5)
-print(pyautogui.position())
+
+print("7", pyautogui.position())
+# drag(959, 621, 1052, 621, 5, 0.01)
+# print(pyautogui.position())
 # pydirectinput.click(auctioneer_scroll_mid[0], auctioneer_scroll_mid[1])
 
 # pydirectinput.leftClick(auctioneer_scroll_mid[0], auctioneer_scroll_mid[1],)
