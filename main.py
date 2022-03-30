@@ -2,7 +2,7 @@ import pyautogui
 import pydirectinput
 import pygetwindow as gw
 #import pyperclip as pc
-import timee
+import time
 
 #Point(x=982, y=688)
 #print (pyautogui.position())
