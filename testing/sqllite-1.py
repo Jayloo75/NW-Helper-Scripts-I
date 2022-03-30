@@ -1,26 +1,18 @@
 import sqlite3
+from classes.NWDB import NWDB
 
 conn = sqlite3.connect('db/resources.db')
 
 c = conn.cursor()
 
-
-
-c.execute("""CREATE TABLE scans (
-            resource_id INTEGER,
-            price real NOT NULL,
-            quantity real NOT NULL,
-            timestamp  NOT NULL
-            )""")
+# c.execute("""CREATE TABLE scans (
+#             resource_id INTEGER,
+#             price real NOT NULL,
+#             quantity real NOT NULL,
+#             timestamp  NOT NULL
+#             )""")
 
 # c.execute("""DROP TABLE resources""")
-
-
-
-
-
-
-
 
 # c.execute("""CREATE TABLE resources (
 #             id INTEGER PRIMARY KEY,
@@ -30,7 +22,6 @@ c.execute("""CREATE TABLE scans (
 #             )""")
 
 # c.execute("""DROP TABLE resources""")
-
 tp_items = [
     ["Oil", "oil.png", "oil"],
     ["Green Wood", "green-wood.png", "green w"],
@@ -51,6 +42,13 @@ tp_items = [
     ]
 
 
+nwdb_obj = NWDB()
+for row in nwdb_obj.get_auctioneer_resources():
+    print(row)
+nwdb_obj.close()
+
+
+
 # for item in tp_items:
 #     c.execute("insert into resources (name, image_name, searchable_name) values (?, ?, ?)", item)
 
@@ -61,13 +59,13 @@ tp_items = [
 
 # conn.commit()
 
-c.execute("SELECT * FROM resources")
-rows = c.fetchall()
-for row in rows:
-    print(row)
-
-# close the connection
-c.close()
+# c.execute("SELECT * FROM resources")
+# rows = c.fetchall()
+# for row in rows:
+#     print(row)
+#
+# # close the connection
+# c.close()
 
 
 
