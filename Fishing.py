@@ -35,8 +35,8 @@ def main():
     duration_time = 0
     cycler = True
     bot_stage = 0
-    casting_distance = 'short'    # short, max
-    # casting_distance = 'max'    # short, max
+    # casting_distance = 'short'    # short, max
+    casting_distance = 'max'    # short, max
 
 # # Finds all Windows with the title "New World"
 #     newWorldWindows = pyautogui.getWindowsWithTitle("New World")
