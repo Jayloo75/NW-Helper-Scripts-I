@@ -11,6 +11,7 @@ from classes.windows_class import Windows
 from tkinter import *
 import cv2
 import pytesseract as tess
+from classes.NWDB import NWDB
 import win32gui
 from pytesseract import Output
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -23,25 +24,14 @@ tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 # db = medinxmj_NW
 # pw = x~v=mLSWg7a5
 
-tp_items = [
-    [1, "Oil", "Dark gold", "oil.png", "oil"],
-    [14, "Green Wood", "Easy Wood", "green-wood.png", "green w"],
-    [13, "Charcoal", "Description", "charcoal.png", "charc"],
-    [7, "Iron Ore", "Description", "iron-ore.png", "iron o"],
-    [3, "Starmetal Ore", "Description", "starmetal-ore.png", "starmetal o"],
-    [2, "Orichalcum Ore", "Premium Ore", "orichalcum-ore.png", "orichalcum o"],
-    [12, "Gold Ore", "Description", "gold-ore.png", "gold ore"],
-    [12, "Silver Ore", "Description", "silver-ore.png", "silver ore"],
-    [12, "Platinum Ore", "Description", "platinum-ore.png", "platinum ore"],
-    [6, "Iron Ingot", "Description", "iron-ingot.png", "iron ing"],
-    [8, "Steel Ingot", "Description", "steel-ingot.png", "steel ingo"],
-    [5, "Starmetal Ingot", "Description", "starmetal-ingot.png", "starmetal in"],
-    [4, "Orichalcum Ingot", "Description", "orichalcum-ingot.png", "orichalcum ing"],
-    [10, "Silver Ingot", "Description", "silver-ingot.png", "silver ingo"],
-    [9,  "Gold Ingot", "Description", "gold-ingot.png", "gold ing"],
-    [11, "Platinum Ingot", "Description", "platinum-ingot.png", "platinum Ing"],
-    [12, "Sample", "Description", "sample.png", "sample"]
-    ]
+nwdb_obj = NWDB()
+# for row in nwdb_obj.get_auctioneer_resources():
+#     print(row)
+tp_items = nwdb_obj.get_auctioneer_resources()
+# (16, 'Platinum Ingot', 'platinum-ingot.png', 'platinum Ing')
+nwdb_obj.close()
+
+
 
 def ocr_core(img):
     # tess.image_to_string(question_img, config="-c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyz -psm 6")
@@ -98,14 +88,16 @@ def get_price_and_qty(windows_obj):
         filename = "qty" + str(row) + ".png"
         qty = get_ocr_result(windows_obj, qty_x1, y1, qty_x2, y2, filename)
 
-        print(row, "--", price, "--", qty)
+        now = int(time.time())
+
+        print(row, "--", price, "--", qty, "--", now)
 
     # move page down
 
     # pyautogui.keyDown(key)
-    auctioneer_scrollbar_1_x = round(win.left + 1848)
-    auctioneer_scrollbar_1_y = round(price_x1 + 453)
-    pydirectinput.click(auctioneer_scrollbar_1_x, auctioneer_scrollbar_1_y)
+    # auctioneer_scrollbar_1_x = round(win.left + 1848)
+    # auctioneer_scrollbar_1_y = round(price_x1 + 453)
+    # pydirectinput.click(auctioneer_scrollbar_1_x, auctioneer_scrollbar_1_y)
 
 
 def are_you_still_playing(newWorldWindow):
@@ -282,12 +274,12 @@ def search_items(windows_obj, search_term_id):
         # type "oil"
         elif bot_stage == 102:
             print(bot_stage, " Type ", tp_items[search_term_id][1])
-            pyautogui.write(tp_items[search_term_id][4], interval=0.09)
+            pyautogui.write(tp_items[search_term_id][3], interval=0.09)
             bot_stage = 103
 
         # Locate "oil in drop down and click it
         elif bot_stage == 103:
-            search_image_name = "imgs/search/" + tp_items[search_term_id][3]
+            search_image_name = "imgs/search/" + tp_items[search_term_id][2]
             search_dropdown_coords = pyautogui.locateOnScreen(search_image_name, grayscale=True, confidence=.75,
                                         region=region_auctioneer_search_dropdown)
             if search_dropdown_coords is not None:
