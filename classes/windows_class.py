@@ -25,6 +25,8 @@ class Windows:
         self.region_gather()
         self.region_tool()
         self.region_weapon_1()
+        self.region_weapon_icon_1()
+
         #self.clickWindow()
 
     def getNewWorldWindow(self):
@@ -91,7 +93,7 @@ class Windows:
         region_height = round(200)
         Windows.region_tool = (region_x, region_y, region_width, region_height)
 
-    def region_weapon_1(self):
+    def region_weapon_icon_1(self):
         # Windows.region_gather
         # newWorldWindow = Windows.newWorldWindow
         region_x = round(self.left + self.width - 58)
@@ -99,6 +101,16 @@ class Windows:
 
         region_width = round(50)
         region_height = round(50)
+        Windows.region_weapon_icon_1 = (region_x, region_y, region_width, region_height)
+
+    def region_weapon_1(self):
+        # Windows.region_gather
+        # newWorldWindow = Windows.newWorldWindow
+        region_x = round(self.left + 1692)
+        region_y = round(self.top + 997)
+
+        region_width = round(1892 - 1692)
+        region_height = round(1103 - 997)
         Windows.region_weapon_1 = (region_x, region_y, region_width, region_height)
 
     def clickWindow(self):
