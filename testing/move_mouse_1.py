@@ -5,7 +5,7 @@ import pyautogui
 import pydirectinput
 from classes.windows_class import Windows
 
-from classes.Actions import holdclick,releaseclick
+# from classes.Actions import holdclick,releaseclick
 
 pydirectinput.PAUSE = 0
 
@@ -17,6 +17,23 @@ def drag(x1, y1, x2, y2, duration, rate):
     lagCount = 0
     for i in range(steps):
         pydirectinput.moveTo(int(x1 + i * dx), int(y1 + i * dy))
+        try:
+            time.sleep(rate * (i + 1) + startTime - time.time())
+        except ValueError:
+            lagCount += 1
+    print(steps, lagCount)
+
+def pyMove(x, y, duration, rate):
+    steps = int(duration / rate)
+    dx = (x) / steps
+    dy = (y) / steps
+    startTime = time.time()
+    lagCount = 0
+    for i in range(steps):
+        # pydirectinput.move(int(x + i * dx), int(y + i * dy))
+        pydirectinput.move(int(dx), None)
+
+        print(int(dx))
         try:
             time.sleep(rate * (i + 1) + startTime - time.time())
         except ValueError:
@@ -38,17 +55,26 @@ def get_auctioneer_scroll_mid():
 
 windows_obj = Windows()
 # newWorldWindow = windows_obj.newWorldWindow
+print(pyautogui.position())
+time.sleep(.5)
+# pydirectinput.press('esc')
+pydirectinput.click()
+# sys.exit()
 
+# auctioneer_scroll_mid = get_auctioneer_scroll_mid()
+# print(auctioneer_scroll_mid)
+time.sleep(1.5)
+# pydirectinput.move(828, None)
+# pyMove(100, 5, 2, 0.1)
+pydirectinput.move(220, None)
+# drag(x1, y1, x2, y2, duration, rate):
 
-auctioneer_scroll_mid = get_auctioneer_scroll_mid()
-
-print(auctioneer_scroll_mid)
-time.sleep(2)
-pydirectinput.moveTo(auctioneer_scroll_mid[0], auctioneer_scroll_mid[1])
-time.sleep(2)
+# drag(959, 621, 1052, 621, 5, 0.01)
+time.sleep(.5)
+print(pyautogui.position())
 # pydirectinput.click(auctioneer_scroll_mid[0], auctioneer_scroll_mid[1])
 
-pydirectinput.leftClick(auctioneer_scroll_mid[0], auctioneer_scroll_mid[1],)
+# pydirectinput.leftClick(auctioneer_scroll_mid[0], auctioneer_scroll_mid[1],)
 # time.sleep(1)
 # pydirectinput.leftClick(auctioneer_scroll_mid[0], auctioneer_scroll_mid[1],)
 
