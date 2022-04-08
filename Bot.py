@@ -4,9 +4,22 @@ import time
 import random
 import keyboard
 import sys
+from PIL import ImageGrab
 from classes.windows_class import Windows
 from classes.gather import Gather
 
+
+# Save a snapshot of the current active weapon 1 slot to know when gathering is complete
+def save_weapon_1_image(windows_obj):
+    # region_x = round(windows_obj.left + windows_obj.width - 58)
+    # region_y = round(windows_obj.top + windows_obj.height - 223)
+    x1 = windows_obj.left + 1702
+    y1 = windows_obj.top + 999
+    x2 = x1 + 165
+    y2 = y1 + 72
+    ss_region = (x1, y1, x2, y2)
+    ss_img = ImageGrab.grab(ss_region)
+    ss_img.save("imgs/save_weapon_1_image.jpg")
 
 
 def main():
@@ -28,26 +41,33 @@ def main():
         while cycler:
             # Initial default state - reset any variables here
             if bot_stage == 0:
-                print("0 -------------- Starting -----------------")
+                print(bot_stage, " -------------- Script Restarting -----------------")
                 bot_stage = 1
 
-            # Find the Interactable "E"
+            # Status Message
             elif bot_stage == 1:
+                print(bot_stage, " - Searching for E")
+                bot_stage = 2
+
+            # Find the Interactable "E"
+            elif bot_stage == 2:
                 # Find that image on screen, in that region, with a confidence of 65%
                 #if pyautogui.locateOnScreen("imgs/e0.png", grayscale=True, confidence=.65, region=region) is not None:
                 if pyautogui.locateOnScreen("imgs/e1.png", grayscale=True, confidence=.85,
                                             region=windows_obj.region_gather) is not None:
-                    print("1 - I found an interactable Object")
+                    print(bot_stage, " - I found an interactable E Object")
                     start_time = time.time()
-                    bot_stage = 2
+                    bot_stage = 3
 
             # let's check some shit
-            elif bot_stage == 2:
-                bot_stage = 3
+            elif bot_stage == 3:
+                print(bot_stage, " - Save initial state of weapon #1")
+                save_weapon_1_image(windows_obj)  # save weapon 1 initial state to file
+                bot_stage = 4
 
             # let's gather some shit
-            elif bot_stage == 3:
-                print("3 - Pressing 'E' to start gathering")
+            elif bot_stage == 4:
+                print(bot_stage, " - Pressing 'E' to start gathering")
                 pyautogui.press('e')
                 Gather.incrementGatherCounter(gather_obj)
                 #Gather.gatherCounter = Gather.gatherCounter + 1
@@ -67,14 +87,19 @@ def main():
             #         gathering_message = "Chopping with a wood axe"
             #         bot_stage = 5
 
-            # Look for weapon pixel to know that you are done gathering
+            # Status Message
             elif bot_stage == 5:
-                print("5 - Looking for weapon 1 icon")
-                print(windows_obj.region_weapon_1)
-                if pyautogui.locateOnScreen("imgs/gather-completed-2.png", grayscale=False, confidence=.95,
+                print(bot_stage, " - Looking for weapon 1 initial status")
+                bot_stage = 6
+
+            # Look for weapon pixel to know that you are done gathering
+            elif bot_stage == 6:
+                # print(bot_stage, " - Looking for weapon 1 icon")
+                # print(windows_obj.region_weapon_1)
+                if pyautogui.locateOnScreen("imgs/save_weapon_1_image.jpg", grayscale=False, confidence=.85,
                                             region=windows_obj.region_weapon_1) is not None:
                     # gathering_message = "Chopping with a wood axe"
-                    print("5 - found clean weapon icon")
+                    print(bot_stage, " - found clean weapon icon")
                     bot_stage = 8
 
 
@@ -129,7 +154,7 @@ def main():
                 #     time.sleep(random_casting_delay)
                 key = '='
                 #print("pressing =")
-                # time.sleep(0.3)
+                time.sleep(random.randint(450, 700) / 1000)
                 pyautogui.press(key)
                 bot_stage = 0
 
