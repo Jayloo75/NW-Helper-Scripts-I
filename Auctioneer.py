@@ -3,8 +3,6 @@ import pydirectinput
 import time
 import random
 import keyboard
-import easyocr, io
-import floor
 import numpy as np
 from PIL import ImageGrab, Image
 from classes.windows_class import Windows
@@ -16,14 +14,6 @@ import win32gui
 from pytesseract import Output
 tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-
-#mysql juser jayloo75
-# mysql passowrd [h%gh[R[4p9cxwd*
-
-# un = medinxmj_NWHelper
-# db = medinxmj_NW
-# pw = x~v=mLSWg7a5
-
 nwdb_obj = NWDB()
 # for row in nwdb_obj.get_auctioneer_resources():
 #     print(row)
@@ -34,12 +24,6 @@ nwdb_obj.close()
 
 
 def ocr_core(img):
-    # tess.image_to_string(question_img, config="-c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyz -psm 6")
-    # text = tess.image_to_string(img, config='-c tessedit_char_whitelist=0123456789.[]    ')
-    # text = tess.image_to_string(img, config='--psm 7')
-    custom_config = '-l eng --oem 3 --psm 6 '
-    # data = pytesseract.image_to_string(thresh, config=custom_config)
-    # text = tess.image_to_string(img, config='--psm 7')
     text = tess.image_to_string(img, config='--psm 6 -c tessedit_char_whitelist=0123456789.')
     return text
 
@@ -367,16 +351,17 @@ def main():
     window = Tk()
     window_title = "Auctioneer"
     window.title(window_title)
-    window.geometry('250x500')
+    window.geometry('800x600')
 
     row_counter = 0
     for item in tp_items:
         # print(item)
-        the_text = item[1], "#", row_counter
+        the_text = item[1]
+        # the_text = item[1], "#", row_counter
         # btn = tk.Button(my_w, text=language, command=lambda lan=language:show_lan(lan))
         # Button(window, text=the_text, command=lambda: clicked(windows_obj, row_counter)).grid(column=0, row=row_counter)
         # Button(window, text=the_text, command=partial(clicked, windows_obj, row_counter)).grid(column=0, row=row_counter)
-        Button(window, text=the_text, command=lambda win=windows_obj, rc=row_counter: search_items(win, rc)).grid(column=0, row=row_counter)
+        Button(window, width=20, text=str(the_text), command=lambda win=windows_obj, rc=row_counter: search_items(win, rc)).grid(column=0, row=row_counter)
 
         # tk.Button(self.board, command=lambda i=i, j=j: self.on_click(i, j))
 
