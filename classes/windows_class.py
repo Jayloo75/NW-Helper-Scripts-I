@@ -106,11 +106,11 @@ class Windows:
     def region_weapon_1(self):
         # Windows.region_gather
         # newWorldWindow = Windows.newWorldWindow
-        region_x = round(self.left + 1692)
-        region_y = round(self.top + 997)
+        region_x = round(self.left + 1687)
+        region_y = round(self.top + 984)
 
-        region_width = round(1892 - 1692)
-        region_height = round(1103 - 997)
+        region_width = round(1880 - 1687)
+        region_height = round(1087 - 984)
         Windows.region_weapon_1 = (region_x, region_y, region_width, region_height)
 
     def clickWindow(self):
