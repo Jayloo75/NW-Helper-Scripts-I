@@ -165,27 +165,8 @@ time.sleep(5)
 
 while True:
 
-
-
-    # def Is_Facing_Saved_Direction(self):
-    #     img = self.capture_compas()
-    #     return self.is_template_present(img, self.start_direction, .6)
-
-
-
-
-
-
-
-
-    #img = ImageGrab.grab(bbox=(2290, 18, 2560, 35))  # x1,x2,y1,y2
-    # img = ImageGrab.grab(bbox=(2300, 18, 2560, 35))  # x1,y1,X2,y2
-    # img = ImageGrab.grab(bbox=(bbox_coord))  # x1,y1,X2,y2
     img = ImageGrab.grab(bbox=(bbox_coord))  # x1,y1,X2,y2
     img_np = np.array(img)
-    #frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
-
-    #cv2.imwrite(filename, frame)
 
     img_frame = get_grayscale(img_np)
     img_frame = thresholding(img_frame)
@@ -193,7 +174,7 @@ while True:
     coords_string = ocr_core(img_frame)
     newstr = coords_string.strip()
     array_length = len(newstr.split())
-    # print("[startraw]]" + str(newstr.split()) + "[endraw]")
+    print("[startraw]]" + str(newstr.split()) + "[endraw]")
     #cv2.imshow("frame", img_frame)
 
     split_coords = newstr.split()
