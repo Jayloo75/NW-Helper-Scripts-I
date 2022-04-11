@@ -6,6 +6,7 @@ import keyboard
 import sys
 from PIL import ImageGrab
 from classes.windows_class import Windows
+from classes.ocr_class import Ocr
 from classes.gather import Gather
 
 
@@ -28,6 +29,9 @@ def main():
     """
     print("main function Initiated")# Initiate windows class
     windows_obj = Windows()
+    ocr_obj = Ocr()
+
+    # ocr_obj.get_current_position(windows_obj)
 
     # print("region_full_window", Windows.region_full_window)
     # print("region_gather", Windows.region_gather)
@@ -69,6 +73,7 @@ def main():
             elif bot_stage == 4:
                 print(bot_stage, " - Pressing 'E' to start gathering")
                 pyautogui.press('e')
+                print('FOund something @', ocr_obj.get_current_position(windows_obj))
                 Gather.incrementGatherCounter(gather_obj)
                 #Gather.gatherCounter = Gather.gatherCounter + 1
                 #isGatheringNode = 1
