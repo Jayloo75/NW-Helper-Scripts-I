@@ -1,20 +1,22 @@
 from pynput.mouse import Button, Controller as MouseController
 from pynput.keyboard import Key, Controller as KeyboardController
-from time import sleep, time
+import time
 import json
 import sys
 
-
-# Countdown timer
-print("Starting", end="", flush=True)
-for i in range(0, 4):
-    print(".", end="", flush=True)
-    sleep(1)
-print("Go")
-
-
-name_of_recording = "recordings/recording0.json"
+# n = len(sys.argv)
+#
+# if n < 3:
+#     exit("Takes two arguments - name of recording to play and number of times to play it")
+#
+# if n > 3:
+#     exit("Only takes two argument - name of recording to play and number of times to play it")
+#
+# if n == 3:
+#     name_of_recording = "data/" + str(sys.argv[1]) + '.txt'
 number_of_plays = 1
+
+name_of_recording = 'data/rec2.txt'
 
 with open(name_of_recording) as json_file:
     data = json.load(json_file)
@@ -49,19 +51,20 @@ for loop in range(number_of_plays):
                 keyboard.press(key)
             else:
                 keyboard.release(key)
-            sleep(pause_time)
+            time.sleep(pause_time)
 
 
         else:
             move_for_scroll = True
             x, y = obj['x'], obj['y']
-            if action == "scroll" and index > 0:
+            if action == "scroll" and index > 0 and (
+                    data[index - 1]['action'] == "pressed" or data[index - 1]['action'] == "released"):
                 if x == data[index - 1]['x'] and y == data[index - 1]['y']:
                     move_for_scroll = False
             print("x: {0}, y: {1}, action: {2}, time: {3}".format(x, y, action, _time))
             mouse.position = (x, y)
             if action == "pressed" or action == "released" or action == "scroll" and move_for_scroll == True:
-                sleep(0.1)
+                time.sleep(0.1)
             if action == "pressed":
                 mouse.press(Button.left if obj['button'] == "Button.left" else Button.right)
             elif action == "released":
@@ -69,6 +72,6 @@ for loop in range(number_of_plays):
             elif action == "scroll":
                 horizontal_direction, vertical_direction = obj['horizontal_direction'], obj['vertical_direction']
                 mouse.scroll(horizontal_direction, vertical_direction)
-            sleep(pause_time)
+            time.sleep(pause_time)
 
 
